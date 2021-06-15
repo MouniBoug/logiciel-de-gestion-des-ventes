@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB_LGVModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TB_Category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Category_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Category_Cover" Type="image" />
+        </EntityType>
+        <EntityType Name="TB_Clients">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Supp_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Supp_Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Supp_Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Supp_Image" Type="image" />
+        </EntityType>
+        <EntityType Name="TB_Purchases">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Category_id" Type="int" />
+          <Property Name="Supplier_id" Type="int" />
+          <Property Name="Purchase_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Purchase_Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="Purchase_Category" Type="nvarchar" MaxLength="50" />
+          <Property Name="Purchase_Supplier" Type="nvarchar" MaxLength="50" />
+          <Property Name="Purchase_Details" Type="nvarchar" MaxLength="50" />
+          <Property Name="Purchase__Buy" Type="float" />
+          <Property Name="Purchase_Sale" Type="float" />
+          <Property Name="Purchase_Qt" Type="float" />
+          <Property Name="Purchase_Tsell" Type="float" />
+          <Property Name="Purchase_Tbuy" Type="float" />
+          <Property Name="Purchase_Trev" Type="float" />
+        </EntityType>
+        <EntityType Name="TB_Sales">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Sale_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sale_Client" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sale_Price" Type="float" />
+          <Property Name="Sale_Qt" Type="float" />
+          <Property Name="Sale_Tprice" Type="float" />
+          <Property Name="Sale_Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TB_Supp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Supp_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Supp_Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Supp_Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Supp_Image" Type="image" />
+        </EntityType>
+        <EntityType Name="TB_Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="User_Pass" Type="nvarchar" MaxLength="50" />
+          <Property Name="User_Role" Type="nvarchar" MaxLength="50" />
+          <Property Name="User_State" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_TB_Purchases_TB_Category">
+          <End Role="TB_Category" Type="Self.TB_Category" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TB_Purchases" Type="Self.TB_Purchases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Category">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TB_Purchases">
+              <PropertyRef Name="Category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_Purchases_TB_Supp">
+          <End Role="TB_Supp" Type="Self.TB_Supp" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TB_Purchases" Type="Self.TB_Purchases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Supp">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TB_Purchases">
+              <PropertyRef Name="Supplier_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB_LGVModelStoreContainer">
+          <EntitySet Name="TB_Category" EntityType="Self.TB_Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_Clients" EntityType="Self.TB_Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_Purchases" EntityType="Self.TB_Purchases" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_Sales" EntityType="Self.TB_Sales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_Supp" EntityType="Self.TB_Supp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_Users" EntityType="Self.TB_Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TB_Purchases_TB_Category" Association="Self.FK_TB_Purchases_TB_Category">
+            <End Role="TB_Category" EntitySet="TB_Category" />
+            <End Role="TB_Purchases" EntitySet="TB_Purchases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_Purchases_TB_Supp" Association="Self.FK_TB_Purchases_TB_Supp">
+            <End Role="TB_Supp" EntitySet="TB_Supp" />
+            <End Role="TB_Purchases" EntitySet="TB_Purchases" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_LGVModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TB_Category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Category_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Category_Cover" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="TB_Purchases" Relationship="DB_LGVModel.FK_TB_Purchases_TB_Category" FromRole="TB_Category" ToRole="TB_Purchases" />
+        </EntityType>
+        <EntityContainer Name="DB_LGVEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TB_Category" EntityType="Self.TB_Category" />
+          <EntitySet Name="TB_Supp" EntityType="DB_LGVModel.TB_Supp" />
+          <EntitySet Name="TB_Purchases" EntityType="DB_LGVModel.TB_Purchases" />
+          <AssociationSet Name="FK_TB_Purchases_TB_Category" Association="DB_LGVModel.FK_TB_Purchases_TB_Category">
+            <End Role="TB_Category" EntitySet="TB_Category" />
+            <End Role="TB_Purchases" EntitySet="TB_Purchases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_Purchases_TB_Supp" Association="DB_LGVModel.FK_TB_Purchases_TB_Supp">
+            <End Role="TB_Supp" EntitySet="TB_Supp" />
+            <End Role="TB_Purchases" EntitySet="TB_Purchases" />
+          </AssociationSet>
+          <EntitySet Name="TB_Clients" EntityType="DB_LGVModel.TB_Clients" />
+          <EntitySet Name="TB_Sales" EntityType="DB_LGVModel.TB_Sales" />
+          <EntitySet Name="TB_Users" EntityType="DB_LGVModel.TB_Users" />
+        </EntityContainer>
+        <EntityType Name="TB_Supp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Supp_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Supp_Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Supp_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Supp_Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="TB_Purchases" Relationship="DB_LGVModel.FK_TB_Purchases_TB_Supp" FromRole="TB_Supp" ToRole="TB_Purchases" />
+        </EntityType>
+        <EntityType Name="TB_Purchases">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Category_id" Type="Int32" />
+          <Property Name="Supplier_id" Type="Int32" />
+          <Property Name="Purchase_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Purchase_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Purchase_Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Purchase_Supplier" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Purchase_Details" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Purchase__Buy" Type="Double" />
+          <Property Name="Purchase_Sale" Type="Double" />
+          <Property Name="Purchase_Qt" Type="Double" />
+          <Property Name="Purchase_Tsell" Type="Double" />
+          <Property Name="Purchase_Tbuy" Type="Double" />
+          <Property Name="Purchase_Trev" Type="Double" />
+          <NavigationProperty Name="TB_Category" Relationship="DB_LGVModel.FK_TB_Purchases_TB_Category" FromRole="TB_Purchases" ToRole="TB_Category" />
+          <NavigationProperty Name="TB_Supp" Relationship="DB_LGVModel.FK_TB_Purchases_TB_Supp" FromRole="TB_Purchases" ToRole="TB_Supp" />
+        </EntityType>
+        <Association Name="FK_TB_Purchases_TB_Category">
+          <End Type="DB_LGVModel.TB_Category" Role="TB_Category" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DB_LGVModel.TB_Purchases" Role="TB_Purchases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Category">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TB_Purchases">
+              <PropertyRef Name="Category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_Purchases_TB_Supp">
+          <End Type="DB_LGVModel.TB_Supp" Role="TB_Supp" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DB_LGVModel.TB_Purchases" Role="TB_Purchases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Supp">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TB_Purchases">
+              <PropertyRef Name="Supplier_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TB_Clients">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Supp_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Supp_Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Supp_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Supp_Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TB_Sales">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sale_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sale_Client" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sale_Price" Type="Double" />
+          <Property Name="Sale_Qt" Type="Double" />
+          <Property Name="Sale_Tprice" Type="Double" />
+          <Property Name="Sale_Date" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="TB_Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_Pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_State" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_LGVModelStoreContainer" CdmEntityContainer="DB_LGVEntities">
+          <EntitySetMapping Name="TB_Category">
+            <EntityTypeMapping TypeName="DB_LGVModel.TB_Category">
+              <MappingFragment StoreEntitySet="TB_Category">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Category_Name" ColumnName="Category_Name" />
+                <ScalarProperty Name="Category_Cover" ColumnName="Category_Cover" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_Supp">
+            <EntityTypeMapping TypeName="DB_LGVModel.TB_Supp">
+              <MappingFragment StoreEntitySet="TB_Supp">
+                <ScalarProperty Name="Supp_Image" ColumnName="Supp_Image" />
+                <ScalarProperty Name="Supp_Email" ColumnName="Supp_Email" />
+                <ScalarProperty Name="Supp_Phone" ColumnName="Supp_Phone" />
+                <ScalarProperty Name="Supp_Name" ColumnName="Supp_Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_Purchases">
+            <EntityTypeMapping TypeName="DB_LGVModel.TB_Purchases">
+              <MappingFragment StoreEntitySet="TB_Purchases">
+                <ScalarProperty Name="Purchase_Trev" ColumnName="Purchase_Trev" />
+                <ScalarProperty Name="Purchase_Tbuy" ColumnName="Purchase_Tbuy" />
+                <ScalarProperty Name="Purchase_Tsell" ColumnName="Purchase_Tsell" />
+                <ScalarProperty Name="Purchase_Qt" ColumnName="Purchase_Qt" />
+                <ScalarProperty Name="Purchase_Sale" ColumnName="Purchase_Sale" />
+                <ScalarProperty Name="Purchase__Buy" ColumnName="Purchase__Buy" />
+                <ScalarProperty Name="Purchase_Details" ColumnName="Purchase_Details" />
+                <ScalarProperty Name="Purchase_Supplier" ColumnName="Purchase_Supplier" />
+                <ScalarProperty Name="Purchase_Category" ColumnName="Purchase_Category" />
+                <ScalarProperty Name="Purchase_Type" ColumnName="Purchase_Type" />
+                <ScalarProperty Name="Purchase_Name" ColumnName="Purchase_Name" />
+                <ScalarProperty Name="Supplier_id" ColumnName="Supplier_id" />
+                <ScalarProperty Name="Category_id" ColumnName="Category_id" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_Clients">
+            <EntityTypeMapping TypeName="DB_LGVModel.TB_Clients">
+              <MappingFragment StoreEntitySet="TB_Clients">
+                <ScalarProperty Name="Supp_Image" ColumnName="Supp_Image" />
+                <ScalarProperty Name="Supp_Email" ColumnName="Supp_Email" />
+                <ScalarProperty Name="Supp_Phone" ColumnName="Supp_Phone" />
+                <ScalarProperty Name="Supp_Name" ColumnName="Supp_Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_Sales">
+            <EntityTypeMapping TypeName="DB_LGVModel.TB_Sales">
+              <MappingFragment StoreEntitySet="TB_Sales">
+                <ScalarProperty Name="Sale_Date" ColumnName="Sale_Date" />
+                <ScalarProperty Name="Sale_Tprice" ColumnName="Sale_Tprice" />
+                <ScalarProperty Name="Sale_Qt" ColumnName="Sale_Qt" />
+                <ScalarProperty Name="Sale_Price" ColumnName="Sale_Price" />
+                <ScalarProperty Name="Sale_Client" ColumnName="Sale_Client" />
+                <ScalarProperty Name="Sale_Name" ColumnName="Sale_Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_Users">
+            <EntityTypeMapping TypeName="DB_LGVModel.TB_Users">
+              <MappingFragment StoreEntitySet="TB_Users">
+                <ScalarProperty Name="User_State" ColumnName="User_State" />
+                <ScalarProperty Name="User_Role" ColumnName="User_Role" />
+                <ScalarProperty Name="User_Pass" ColumnName="User_Pass" />
+                <ScalarProperty Name="User_Name" ColumnName="User_Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
